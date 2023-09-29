@@ -30,10 +30,13 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	//binding of input to the pawn
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"),this,&AShooterCharacter::MoveForward);
 	PlayerInputComponent->BindAxis(TEXT("LookUP"),this,&APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"),this,&AShooterCharacter::MoveRight);
-	PlayerInputComponent->BindAxis(TEXT("LookRIght"),this,&APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis(TEXT("LookRight"),this,&APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis(TEXT("LookUpRate"),this,&AShooterCharacter::LookUpRate);
+	PlayerInputComponent->BindAxis(TEXT("LookRightRate"),this,&AShooterCharacter::LookRightRate);
 	PlayerInputComponent->BindAction(TEXT("Jump"),EInputEvent::IE_Pressed,this,&ACharacter::Jump);
 
 }
@@ -48,3 +51,14 @@ void AShooterCharacter::MoveRight(float AxixValue)
 	AddMovementInput(GetActorRightVector()*AxixValue);
 }
 
+void AShooterCharacter::LookUpRate(float AxixValue)
+{
+	//gamepad look up-down movements
+	AddControllerPitchInput(AxixValue * RotationRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AShooterCharacter::LookRightRate( float AxixValue)
+{
+	//gamepad look right-left movements
+	AddControllerYawInput(AxixValue * RotationRate * GetWorld()->GetDeltaSeconds());
+}
