@@ -39,14 +39,20 @@ void AGun::PullTrigger()
 
 	FVector End = Location + Rotation.Vector() * MaxRange;
 
-	FHitResult HitRisult;
-	bool bSuccess = GetWorld()->LineTraceSingleByChannel(HitRisult, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
+	FHitResult HitResult;
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(HitResult, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
 	
 	// DrawDebugCamera(GetWorld(), Location, Rotation, 90, 1, FColor::Red, true);
 	if(bSuccess){
-		// DrawDebugPoint(GetWorld(), HitRisult.Location, 20, FColor::Green, true);
+		// DrawDebugPoint(GetWorld(), HitResult.Location, 20, FColor::Green, true);
 		FVector ShotDirection = -Rotation.Vector();
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Impact, HitRisult.Location, ShotDirection.Rotation(), true);
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Impact, HitResult.Location, ShotDirection.Rotation(), true);
+		AActor* HitActor = HitResult.GetActor();
+		
+		if(HitActor!=nullptr) {
+			FPointDamageEvent DamageEvent(Damage, HitResult, ShotDirection, nullptr);
+			HitActor->TakeDamage(Damage, DamageEvent, OwnerController, this);
+		}
 	}
 }
 
