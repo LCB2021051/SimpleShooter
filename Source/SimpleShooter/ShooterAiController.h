@@ -20,4 +20,9 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 	
+	// UPROPERTY(EditAnywhere)
+	// float AcceptanceRadius = 200;
+
+	UPROPERTY(EditAnywhere)
+	class UBehaviorTree* AIBehavior;
 };
