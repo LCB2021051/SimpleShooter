@@ -19,10 +19,11 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
+	bool IsDead() const;
 	
 	// UPROPERTY(EditAnywhere)
 	// float AcceptanceRadius = 200;
-
+private:
 	UPROPERTY(EditAnywhere)
 	class UBehaviorTree* AIBehavior;
 };
