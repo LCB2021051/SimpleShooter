@@ -30,6 +30,7 @@ void AShooterCharacter::BeginPlay()
 bool AShooterCharacter::IsDead() const
 {
 	return Health <= 0;
+	// return false;
 }
 
 float AShooterCharacter::GetHealthPercentage() const
